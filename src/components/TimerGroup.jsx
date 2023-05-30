@@ -21,12 +21,10 @@ function TimerGroup({
             }, 1000);
         } else if (isRunning && timeLeft === 0) {
             audioElement.current.play();
-            intervalId.current = setInterval(() => {
-                setTimeLeft((timeLeft) => timeLeft - 1);
-            }, 1000);
-        } else if (isRunning && timeLeft === 0) {
             setIsSession(!isSession);
-            setTimeLeft((isSession ? breakLength : sessionLength) * 60);
+            intervalId.current = setInterval(() => {
+                setTimeLeft((isSession ? breakLength : sessionLength) * 60);
+            }, 1000);
         } else {
             clearInterval(intervalId.current);
         }
@@ -34,7 +32,7 @@ function TimerGroup({
         return () => {
             clearInterval(intervalId.current);
         };
-    }, [isRunning, timeLeft, isSession, sessionLength, breakLength]);
+    }, [isRunning, timeLeft]);
 
     useEffect(() => {
         setTimeLeft(isSession ? sessionLength * 60 : breakLength * 60);
