@@ -15,35 +15,39 @@ function TimerGroup({
     const intervalId = useRef(null);
 
     useEffect(() => {
-        if (isRunning && timeLeft > 0) {
-            intervalId.current = setInterval(() => {
-                setTimeLeft((timeLeft) => timeLeft - 1);
-            }, 1000);
-        } else if (isRunning && timeLeft === 0) {
+        if (isRunning && timeLeft === 0) {
             audioElement.current.play();
             setIsSession(!isSession);
-            intervalId.current = setInterval(() => {
-                setTimeLeft((isSession ? breakLength : sessionLength) * 60);
-            }, 1000);
-        } else {
-            clearInterval(intervalId.current);
+        } else if (isRunning && timeLeft < 0) {
+            setTimeLeft((isSession ? sessionLength : breakLength) * 60);
         }
-
-        return () => {
-            clearInterval(intervalId.current);
-        };
-    }, [isRunning, timeLeft]);
+    }, [timeLeft]);
 
     useEffect(() => {
+        if (sessionLength < 1) {
+            setSessionLength(1);
+        } else if (breakLength < 1) {
+            setSessionLength(1);
+        }
         setTimeLeft(isSession ? sessionLength * 60 : breakLength * 60);
     }, [sessionLength, breakLength]);
 
     const toggleTimer = () => {
-        setIsRunning(!isRunning);
+        if (!isRunning) {
+            setIsRunning(!isRunning);
+            intervalId.current = setInterval(() => {
+                setTimeLeft((timeLeft) => timeLeft - 1);
+            }, 1000);
+        } else {
+            setIsRunning(!isRunning);
+            clearInterval(intervalId.current);
+        }
     };
 
     const resetTimer = () => {
-        setIsRunning(false);
+        if (isRunning) {
+            toggleTimer();
+        }
         setIsSession(true);
         setBreakLength(5);
         setSessionLength(25);
