@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 function App() {
     const [sessionLength, setSessionLength] = useState(25);
     const [breakLength, setBreakLength] = useState(5);
-    const [timerLength, setTimerLength] = useState(30);
+    const [isRunning, setIsRunning] = useState(false);
 
     return (
         <>
@@ -22,13 +22,22 @@ function App() {
                         <BreakGroup
                             breakLength={breakLength}
                             setBreakLength={setBreakLength}
+                            isRunning={isRunning}
                         />
                         <SessionGroup
                             sessionLength={sessionLength}
                             setSessionLength={setSessionLength}
+                            isRunning={isRunning}
                         />
                     </div>
-                    <TimerGroup />
+                    <TimerGroup
+                        sessionLength={sessionLength}
+                        setSessionLength={setSessionLength}
+                        breakLength={breakLength}
+                        setBreakLength={setBreakLength}
+                        isRunning={isRunning}
+                        setIsRunning={setIsRunning}
+                    />
                     <footer>Made by CKumler</footer>
                 </article>
             </main>

@@ -1,5 +1,5 @@
-function BreakGroup({ breakLength, setBreakLength }) {
-    const breakLengthMax = 999;
+function BreakGroup({ breakLength, setBreakLength, isRunning }) {
+    const breakLengthMax = 60;
     function incBreakLength() {
         if (breakLength < breakLengthMax) {
             setBreakLength((i) => i + 1);
@@ -17,7 +17,7 @@ function BreakGroup({ breakLength, setBreakLength }) {
                 <button
                     className="secondary"
                     id="break-decrement"
-                    onClick={decBreakLength}
+                    onClick={isRunning ? null : decBreakLength}
                 >
                     -
                 </button>
@@ -27,7 +27,7 @@ function BreakGroup({ breakLength, setBreakLength }) {
                 <button
                     className="secondary"
                     id="break-increment"
-                    onClick={incBreakLength}
+                    onClick={isRunning ? null : incBreakLength}
                 >
                     +
                 </button>

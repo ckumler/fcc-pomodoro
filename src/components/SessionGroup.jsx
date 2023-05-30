@@ -1,5 +1,5 @@
-function SessionGroup({ sessionLength, setSessionLength }) {
-    const sessionLengthMax = 999;
+function SessionGroup({ sessionLength, setSessionLength, isRunning }) {
+    const sessionLengthMax = 60;
     function incSessionLength() {
         if (sessionLength < sessionLengthMax) {
             setSessionLength((i) => i + 1);
@@ -17,7 +17,7 @@ function SessionGroup({ sessionLength, setSessionLength }) {
                 <button
                     className="secondary"
                     id="session-decrement"
-                    onClick={decSessionLength}
+                    onClick={isRunning ? null : decSessionLength}
                 >
                     -
                 </button>
@@ -28,7 +28,7 @@ function SessionGroup({ sessionLength, setSessionLength }) {
                 <button
                     className="secondary"
                     id="session-increment"
-                    onClick={incSessionLength}
+                    onClick={isRunning ? null : incSessionLength}
                 >
                     +
                 </button>
